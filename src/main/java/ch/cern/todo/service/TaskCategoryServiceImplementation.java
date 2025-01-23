@@ -1,0 +1,39 @@
+package ch.cern.todo.service;
+
+import ch.cern.todo.exceptions.TaskCategoryNotFoundException;
+import ch.cern.todo.exceptions.TaskNotFoundException;
+import ch.cern.todo.model.Task;
+import ch.cern.todo.model.TaskCategory;
+import ch.cern.todo.repository.TaskCategoryRepository;
+import ch.cern.todo.repository.TaskRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class TaskCategoryServiceImplementation implements TaskCategoryService {
+
+    TaskCategoryRepository taskCategoryRepository;
+
+    @Autowired
+    public void setTaskRepository(TaskCategoryRepository taskCategoryRepository) {
+        this.taskCategoryRepository = taskCategoryRepository;
+    }
+
+    @Override
+    public void addTaskCategory(TaskCategory taskCategory) {
+        taskCategoryRepository.save(taskCategory);
+    }
+
+    @Override
+    public TaskCategory getById(int taskCategory_id) throws TaskCategoryNotFoundException {
+        return taskCategoryRepository.findById(taskCategory_id)
+                .orElseThrow(() -> new TaskCategoryNotFoundException("Task Category not existing"));
+    }
+
+    @Override
+    public List<TaskCategory> getAllTasks() {
+        return taskCategoryRepository.findAll();
+    }
+}
