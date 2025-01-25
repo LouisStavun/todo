@@ -1,6 +1,6 @@
 package ch.cern.todo.service;
 
-import ch.cern.todo.exceptions.TaskNotFoundException;
+import ch.cern.todo.exception.TaskNotFoundException;
 import ch.cern.todo.model.Task;
 import org.springframework.stereotype.Service;
 import ch.cern.todo.repository.TaskRepository;

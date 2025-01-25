@@ -27,12 +27,18 @@ public class Task {
     @JoinColumn(name = "category_id")
     private TaskCategory taskCategory;
 
-    public Task(String task_name, String task_description, Timestamp deadline, TaskCategory taskCategory) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "userID_assigned")
+    private UserApp userAssigned;
+
+    public Task(String task_name, String task_description, Timestamp deadline,
+                TaskCategory taskCategory, UserApp user) {
         super();
         this.task_name = task_name;
         this.task_description = task_description;
         this.deadline = deadline;
         this.taskCategory = taskCategory;
+        this.userAssigned = user;
     }
 
     public Task() {}

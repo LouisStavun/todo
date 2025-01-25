@@ -1,11 +1,8 @@
 package ch.cern.todo.service;
 
-import ch.cern.todo.exceptions.TaskCategoryNotFoundException;
-import ch.cern.todo.exceptions.TaskNotFoundException;
-import ch.cern.todo.model.Task;
+import ch.cern.todo.exception.TaskCategoryNotFoundException;
 import ch.cern.todo.model.TaskCategory;
 import ch.cern.todo.repository.TaskCategoryRepository;
-import ch.cern.todo.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

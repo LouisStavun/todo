@@ -1,4 +1,4 @@
-package ch.cern.todo.exceptions;
+package ch.cern.todo.exception;
 
 public class TaskNotFoundException extends RuntimeException{
 
