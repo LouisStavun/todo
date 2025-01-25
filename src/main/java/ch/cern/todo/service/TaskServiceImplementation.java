@@ -33,4 +33,11 @@ public class TaskServiceImplementation implements TaskService{
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
+
+    public String toString(){
+        String ret = "";
+
+        ret = this.getAllTasks().toString();
+        return ret;
+    }
 }

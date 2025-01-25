@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.sql.Timestamp;
 
-import static jakarta.persistence.GenerationType.AUTO;
 import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
@@ -15,13 +14,14 @@ public class Task {
     private Integer task_id;
 
     @Column(length = 100, nullable = false)
-    private String task_name;
+    private String taskName;
 
     @Column(length = 500)
-    private String task_description;
+    private String taskDescription;
 
     @Column(nullable = false)
     private Timestamp deadline;
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
@@ -31,11 +31,11 @@ public class Task {
     @JoinColumn(name = "userID_assigned")
     private UserApp userAssigned;
 
-    public Task(String task_name, String task_description, Timestamp deadline,
+    public Task(String taskName, String taskDescription, Timestamp deadline,
                 TaskCategory taskCategory, UserApp user) {
         super();
-        this.task_name = task_name;
-        this.task_description = task_description;
+        this.taskName = taskName;
+        this.taskDescription = taskDescription;
         this.deadline = deadline;
         this.taskCategory = taskCategory;
         this.userAssigned = user;
@@ -43,19 +43,40 @@ public class Task {
 
     public Task() {}
 
-    public Integer getTask_id() {
-        return task_id;
+
+
+    public String getTaskName() {
+        return taskName;
+    }
+    public void setTask_id(Integer task_id) {
+        this.task_id = task_id;
     }
 
-    public String getTask_name() {
-        return task_name;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
-    public String getTask_description() {
-        return task_description;
+    public void setTaskDescription(String taskDescription) {
+        this.taskDescription = taskDescription;
     }
 
-    public Timestamp getDeadline() {
-        return deadline;
+    public void setDeadline(Timestamp deadline) {
+        this.deadline = deadline;
+    }
+
+    public TaskCategory getTaskCategory() {
+        return taskCategory;
+    }
+
+    public void setTaskCategory(TaskCategory taskCategory) {
+        this.taskCategory = taskCategory;
+    }
+
+    public UserApp getUserAssigned() {
+        return userAssigned;
+    }
+
+    public void setUserAssigned(UserApp userAssigned) {
+        this.userAssigned = userAssigned;
     }
 }

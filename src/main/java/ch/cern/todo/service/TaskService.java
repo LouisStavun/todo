@@ -12,4 +12,6 @@ public interface TaskService {
     Task getById(int id);
 
     List<Task> getAllTasks();
+
+    String toString();
 }

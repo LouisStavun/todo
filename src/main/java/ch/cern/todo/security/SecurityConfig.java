@@ -47,8 +47,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz ->
                         authz
                                 .requestMatchers("/h2-console/**").permitAll() // Permet l'accès à la console H2 sans authentification
-                                .requestMatchers("/admin/**").hasRole(String.valueOf(Role.ADMIN)) // Autoriser uniquement les ADMIN
-                                .requestMatchers("/user/**").hasAnyRole(String.valueOf(Role.USER), String.valueOf(Role.ADMIN)) // Autoriser USER et ADMIN
                                 .requestMatchers("/home/**").authenticated() // Exiger une authentification pour /home
                                 .requestMatchers("/**").permitAll() // Autoriser tout le monde pour les autres routes
                 )
