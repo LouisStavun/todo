@@ -11,6 +11,8 @@ public interface TaskService {
 
     Task getById(int id);
 
+    public List<Task> getTasksByName(String name);
+
     List<Task> getAllTasks();
 
     String toString();

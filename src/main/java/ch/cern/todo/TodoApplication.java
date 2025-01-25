@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 import ch.cern.todo.service.TaskService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.sql.Timestamp;
@@ -42,6 +43,7 @@ public class TodoApplication implements CommandLineRunner {
 
 
 	@Bean
+	@Order(1)
 	public CommandLineRunner loadData(UserRepository userRepository, @Lazy PasswordEncoder passwordEncoder) {
 		return args -> {
 			if (userRepository.count() == 0) {
@@ -70,7 +72,7 @@ public class TodoApplication implements CommandLineRunner {
 		Task task2 = new Task("Task 2","", Timestamp.valueOf("2025-01-23 17:27:34.59174"),taskCategory1,userApp2);
 		Task task3 = new Task("Task 3","", Timestamp.valueOf("2025-01-23 17:49:14.813298"),taskCategory2,userApp3);
 		Task task4 = new Task("Task 4","", Timestamp.valueOf("2025-01-24 14:17:48.50652"),taskCategory3,userApp3);
-		Task task5 = new Task("Task 5","This is another Task", Timestamp.valueOf("2025-01-25 21:35:47.045261"),taskCategory3,userApp4);
+		Task task5 = new Task("Task 5","This is another Task", Timestamp.valueOf("2025-01-25 21:35:47.045261"),taskCategory3,null);
 
 
 		taskCategoryService.addTaskCategory(taskCategory1);

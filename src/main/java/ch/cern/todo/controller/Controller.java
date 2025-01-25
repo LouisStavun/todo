@@ -1,12 +1,15 @@
 package ch.cern.todo.controller;
 
 import ch.cern.todo.model.Task;
+import ch.cern.todo.service.SearchService;
 import ch.cern.todo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -15,6 +18,9 @@ public class Controller {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private SearchService searchService;
 
     @GetMapping("/api/tasks")
     public List<Task> getTasks() {
@@ -42,4 +48,22 @@ public class Controller {
     {
         return "This is the delete request";
     }
+
+    // Endpoint pour récupérer des tâches par nom
+    @GetMapping("/tasks/search")
+    public List<Task> getTasksByName(@RequestParam String name) {
+        return taskService.getTasksByName(name);
+    }
+
+    @GetMapping("/tasks/truc")
+    public List<Task> searchTasks(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) Timestamp deadline,
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String categoryName
+    ) {
+        return searchService.searchTasks(name, description, deadline, username, categoryName);
+    }
+
 }

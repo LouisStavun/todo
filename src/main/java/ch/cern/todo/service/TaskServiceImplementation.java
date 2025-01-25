@@ -30,6 +30,11 @@ public class TaskServiceImplementation implements TaskService{
     }
 
     @Override
+    public List<Task> getTasksByName(String name) {
+        return taskRepository.findByName(name);
+    }
+
+    @Override
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
@@ -40,4 +45,6 @@ public class TaskServiceImplementation implements TaskService{
         ret = this.getAllTasks().toString();
         return ret;
     }
+
+
 }
