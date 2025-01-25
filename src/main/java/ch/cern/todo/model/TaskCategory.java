@@ -15,14 +15,14 @@ public class TaskCategory {
     private Integer category_id;
 
     @Column(length = 100, nullable = false, unique = true)
-    private String category_name;
+    private String categoryName;
 
     @Column(length = 500)
-    private String category_description;
+    private String categoryDescription;
 
-    public TaskCategory(String category_name, String category_description) {
-        this.category_name = category_name;
-        this.category_description = category_description;
+    public TaskCategory(String category_name, String categoryDescription) {
+        this.categoryName = category_name;
+        this.categoryDescription = categoryDescription;
     }
 
     public TaskCategory() {
@@ -37,19 +37,19 @@ public class TaskCategory {
         this.category_id = category_id;
     }
 
-    public String getCategory_name() {
-        return category_name;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategory_name(String category_name) {
-        this.category_name = category_name;
+    public void setCategoryName(String category_name) {
+        this.categoryName = category_name;
     }
 
-    public String getCategory_description() {
-        return category_description;
+    public String getCategoryDescription() {
+        return categoryDescription;
     }
 
-    public void setCategory_description(String category_description) {
-        this.category_description = category_description;
+    public void setCategoryDescription(String category_description) {
+        this.categoryDescription = category_description;
     }
 }

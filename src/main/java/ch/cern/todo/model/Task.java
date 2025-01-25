@@ -23,11 +23,11 @@ public class Task {
     private Timestamp deadline;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "category_id")
     private TaskCategory taskCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne()
     @JoinColumn(name = "userID_assigned")
     private UserApp userAssigned;
 
@@ -50,6 +50,10 @@ public class Task {
     }
     public void setTask_id(Integer task_id) {
         this.task_id = task_id;
+    }
+
+    public String getTaskDescription() {
+        return taskDescription;
     }
 
     public void setTaskName(String taskName) {
@@ -78,5 +82,13 @@ public class Task {
 
     public void setUserAssigned(UserApp userAssigned) {
         this.userAssigned = userAssigned;
+    }
+
+    public Integer getTask_id() {
+        return task_id;
+    }
+
+    public Timestamp getDeadline() {
+        return deadline;
     }
 }

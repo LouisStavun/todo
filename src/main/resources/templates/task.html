@@ -1,9 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
-    <title>Test Thymeleaf</title>
+    <title>Liste des Tâches</title>
 </head>
 <body>
-<h1>Page de Test Thymeleaf</h1>
+<h1>Liste des Tâches</h1>
+<ul>
+    <!-- Boucle sur chaque tâche dans la liste "tasks" -->
+    <li th:each="task : ${tasks}">
+        <p>
+            <strong>Nom de la tâche :</strong>
+            <span th:text="${task.taskName}">Nom de la tâche</span>
+        </p>
+        <p>
+            <strong>Description :</strong>
+            <span th:text="${task.taskDescription}">Description de la tâche</span>
+        </p>
+        <p>
+            <strong>Deadline :</strong>
+            <span th:text="${#dates.format(task.deadline, 'dd/MM/yyyy HH:mm')}">Deadline</span>
+        </p>
+        <!-- Affichage de la catégorie uniquement si elle existe -->
+        <p th:if="${task.taskCategory != null}">
+            <strong>Catégorie :</strong>
+            <span th:text="${task.taskCategory.categoryName}">Catégorie</span>
+        </p>
+        <p th:if="${task.taskCategory == null}">
+            <strong>Catégorie :</strong>
+            Non spécifiée
+        </p>
+
+        <!-- Affichage de l'utilisateur assigné uniquement si assigné -->
+        <p th:if="${task.userAssigned != null}">
+            <strong>Assignée à :</strong>
+            <span th:text="${task.userAssigned.username}">Utilisateur assigné</span>
+        </p>
+        <p th:if="${task.userAssigned == null}">
+            <strong>Assignée à :</strong>
+            Non assignée
+        </p>
+        <hr>
+    </li>
+</ul>
 </body>
 </html>

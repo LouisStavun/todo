@@ -62,7 +62,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    @Lazy // To avoidn circular dependency
+    @Lazy // To avoid circular dependency
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
