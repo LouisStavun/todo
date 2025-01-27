@@ -77,4 +77,18 @@ public class TasksController {
         return searchService.deleteTasks(currentUser, name, description, deadline, username, categoryName);
     }
 
+    @PatchMapping("/update/{id}")
+    public Task updateTask(
+            @PathVariable Integer id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String deadline,
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String categoryName
+    ){
+        UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
+        return searchService.updateTask(id,currentUser, name, description, deadline, username, categoryName);
+
+    }
+
 }

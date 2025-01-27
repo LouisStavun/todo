@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskCategoryServiceImplementation implements TaskCategoryService {
@@ -51,5 +52,23 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
             TaskCategory taskCategory = taskCategoryRepository.findByCategoryName(categoryName);
             taskCategoryRepository.delete(taskCategory);
         }
+    }
+
+    @Override
+    public TaskCategory updateTaskCategory(int id, UserApp currentUser, String categoryName, String categoryDescription) {
+        Optional<TaskCategory> taskCategory = taskCategoryRepository.findById(id);
+        if(taskCategory.isPresent()){
+            TaskCategory taskCategoryToUpdate = taskCategory.get();
+            if (currentUser.isAdmin()){
+                if (categoryName != null && !categoryName.isEmpty()){
+                    taskCategoryToUpdate.setCategoryName(categoryName);
+                }
+                if (categoryDescription != null && !categoryDescription.isEmpty()){
+                    taskCategoryToUpdate.setCategoryDescription(categoryDescription);
+                }
+            }
+            return taskCategoryRepository.save(taskCategoryToUpdate);
+        }
+        return null;
     }
 }

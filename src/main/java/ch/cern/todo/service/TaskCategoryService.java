@@ -18,4 +18,6 @@ public interface TaskCategoryService {
     TaskCategory createTaskCategory(String category_name, String categoryDescription);
 
     void deleteTaskCategory(String categoryName, UserApp currentUser);
+
+    TaskCategory updateTaskCategory(int id, UserApp currentUser, String categoryName, String categoryDescription);
 }

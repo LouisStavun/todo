@@ -7,7 +7,6 @@ import ch.cern.todo.service.TaskCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -27,17 +26,28 @@ public class TaskCategoryController {
 
     @PostMapping("/create")
     public TaskCategory createTaskCategory(
-            @RequestParam String category_name,
+            @RequestParam String categoryName,
             @RequestParam String categoryDescription
     ){
-        return taskCategoryService.createTaskCategory(category_name,categoryDescription);
+        return taskCategoryService.createTaskCategory(categoryName,categoryDescription);
     }
 
     @DeleteMapping("/delete")
     public void deleteTaskCategory(
-            @RequestParam String category_name
+            @RequestParam String categoryName
     ){
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
-        taskCategoryService.deleteTaskCategory(category_name,currentUser);
+        taskCategoryService.deleteTaskCategory(categoryName,currentUser);
+    }
+
+    @PatchMapping("/update/{id}")
+    public TaskCategory updateCategory(
+            @PathVariable Integer id,
+            @RequestParam(required = false) String categoryName,
+            @RequestParam(required = false) String categoryDescription
+    ){
+        UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
+        return taskCategoryService.updateTaskCategory(id,currentUser, categoryName, categoryDescription);
+
     }
 }

@@ -1,26 +1,37 @@
 package ch.cern.todo.service;
 
 import ch.cern.todo.model.Task;
+import ch.cern.todo.model.UserApp;
 import ch.cern.todo.repository.SearchRepository;
+import ch.cern.todo.repository.TaskCategoryRepository;
+import ch.cern.todo.repository.TaskRepository;
 import ch.cern.todo.repository.UserRepository;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SearchServiceImplementation implements SearchService {
 
+
     @Autowired
-    private SearchRepository searchRepository;
+    SearchRepository searchRepository;
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    TaskRepository taskRepository;
+    @Autowired
+    private TaskCategoryRepository taskCategoryRepository;
 
     public List<Task> searchTasks(UserDetails user, String name, String description, String deadline, String username, String categoryName) {
         Specification<Task> spec = filterTasks(user, name, description, deadline, username, categoryName);
@@ -79,5 +90,32 @@ public class SearchServiceImplementation implements SearchService {
     public Long deleteTasks(UserDetails user, String name, String description, String deadline, String username, String categoryName) {
         Specification<Task> spec = filterTasks(user, name, description, deadline, username, categoryName);
         return searchRepository.delete(spec);
+    }
+
+    @Override
+    public Task updateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName) {
+        Optional<Task> task = taskRepository.findById(id);
+        if(task.isPresent()){
+            Task taskToUpdate = task.get();
+            if (user.isAdmin() || taskToUpdate.getUserAssigned().getUserName().equals(user.getUserName())) {
+                if (name != null && !name.isEmpty()) {
+                    taskToUpdate.setTaskName(name);
+                }
+                if (description != null && !description.isEmpty()) {
+                    taskToUpdate.setTaskDescription(description);
+                }
+                if (deadline != null && !deadline.isEmpty()) {
+                    taskToUpdate.setDeadline(Timestamp.valueOf(deadline));
+                }
+                if (username != null && !username.isEmpty()) {
+                    taskToUpdate.setUserAssigned(userRepository.findByUserName(username));
+                }
+                if (categoryName != null && !categoryName.isEmpty()) {
+                    taskToUpdate.setTaskCategory(taskCategoryRepository.findByCategoryName(categoryName));
+                }
+                return taskRepository.save(taskToUpdate);
+            }
+        }
+        return null;
     }
 }
