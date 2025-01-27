@@ -1,11 +1,14 @@
 package ch.cern.todo.controller;
 
 import ch.cern.todo.model.Task;
+import ch.cern.todo.model.UserApp;
 import ch.cern.todo.service.SearchService;
 import ch.cern.todo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,15 +61,17 @@ public class Controller {
 //    }
 
     @GetMapping("/tasks/search")
-    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public List<Task> searchTasks(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) String deadline,
             @RequestParam(required = false) String username,
-            @RequestParam(required = false) String categoryName
-    ) {
-        return searchService.searchTasks(name, description, deadline, username, categoryName);
+            @RequestParam(required = false) String categoryName) {
+
+        UserDetails currentUser = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //((UserApp) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getRole();
+        //System.out.println(currentUsername);
+        return searchService.searchTasks(currentUser, name, description, deadline, username, categoryName);
     }
 
 }

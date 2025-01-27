@@ -30,6 +30,10 @@ public class UserApp implements UserDetails {
 
     }
 
+    public boolean isAdmin() {
+        return this.role.equals(Role.ADMIN);
+    }
+
     public String getUserName() {
         return userName;
     }
