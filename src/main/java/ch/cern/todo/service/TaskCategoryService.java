@@ -2,6 +2,7 @@ package ch.cern.todo.service;
 
 import ch.cern.todo.model.Task;
 import ch.cern.todo.model.TaskCategory;
+import ch.cern.todo.model.UserApp;
 
 import java.util.List;
 
@@ -15,4 +16,6 @@ public interface TaskCategoryService {
     TaskCategory getByName(String name);
 
     TaskCategory createTaskCategory(String category_name, String categoryDescription);
+
+    void deleteTaskCategory(String categoryName, UserApp currentUser);
 }

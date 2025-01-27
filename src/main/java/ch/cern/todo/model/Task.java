@@ -13,7 +13,7 @@ public class Task {
     @GeneratedValue(strategy = IDENTITY)
     private Integer task_id;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 100, nullable = false, unique = true)
     private String taskName;
 
     @Column(length = 500)
@@ -25,6 +25,7 @@ public class Task {
 
     @ManyToOne()
     @JoinColumn(name = "category_id")
+    @org.hibernate.annotations.OnDelete(action = org.hibernate.annotations.OnDeleteAction.SET_NULL)
     private TaskCategory taskCategory;
 
     @ManyToOne()

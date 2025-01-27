@@ -1,18 +1,12 @@
 package ch.cern.todo.controller;
 
 import ch.cern.todo.model.Task;
-import ch.cern.todo.model.TaskCategory;
 import ch.cern.todo.model.UserApp;
 import ch.cern.todo.repository.TaskCategoryRepository;
-import ch.cern.todo.repository.TaskRepository;
 import ch.cern.todo.repository.UserRepository;
 import ch.cern.todo.service.SearchService;
-import ch.cern.todo.service.TaskCategoryService;
 import ch.cern.todo.service.TaskService;
-import ch.cern.todo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/tasks")
-public class Controller {
+public class TasksController {
 
 
     @Autowired
@@ -58,7 +52,6 @@ public class Controller {
 
 
 
-
     @GetMapping("/search")
     public List<Task> searchTasks(
             @RequestParam(required = false) String name,
@@ -69,6 +62,19 @@ public class Controller {
 
         UserDetails currentUser = this.getCurrentUser();
         return searchService.searchTasks(currentUser, name, description, deadline, username, categoryName);
+    }
+
+
+    @DeleteMapping("/delete")
+    public Long deleteTask(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) String deadline,
+            @RequestParam(required = false) String username,
+            @RequestParam(required = false) String categoryName) {
+
+        UserDetails currentUser = this.getCurrentUser();
+        return searchService.deleteTasks(currentUser, name, description, deadline, username, categoryName);
     }
 
 }

@@ -27,11 +27,13 @@ public class SearchServiceImplementation implements SearchService {
         return searchRepository.findAll(spec);
     }
 
+
+
     public Specification<Task> filterTasks(
             UserDetails currentUser,
             String taskName,
             String taskDescription,
-            String taskDeadline, // Mettre un String et cast to Timestamp
+            String taskDeadline,
             String username,
             String categoryName
     ) {
@@ -70,5 +72,12 @@ public class SearchServiceImplementation implements SearchService {
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
+    }
+
+
+    @Override
+    public Long deleteTasks(UserDetails user, String name, String description, String deadline, String username, String categoryName) {
+        Specification<Task> spec = filterTasks(user, name, description, deadline, username, categoryName);
+        return searchRepository.delete(spec);
     }
 }

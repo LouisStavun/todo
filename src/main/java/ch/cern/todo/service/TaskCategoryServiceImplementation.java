@@ -2,6 +2,7 @@ package ch.cern.todo.service;
 
 import ch.cern.todo.exception.TaskCategoryNotFoundException;
 import ch.cern.todo.model.TaskCategory;
+import ch.cern.todo.model.UserApp;
 import ch.cern.todo.repository.TaskCategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,5 +43,13 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
     public TaskCategory createTaskCategory(String category_name, String categoryDescription){
         TaskCategory taskCategory = new TaskCategory(category_name, categoryDescription);
         return taskCategoryRepository.save(taskCategory);
+    }
+
+    @Override
+    public void deleteTaskCategory(String categoryName, UserApp currentUser) throws TaskCategoryNotFoundException {
+        if (currentUser.isAdmin()){
+            TaskCategory taskCategory = taskCategoryRepository.findByCategoryName(categoryName);
+            taskCategoryRepository.delete(taskCategory);
+        }
     }
 }
