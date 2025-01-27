@@ -12,7 +12,7 @@ public class SearchSpecification {
     public static Specification<Task> filterTasks(
             String taskName,
             String taskDescription,
-            Timestamp taskDeadline, // Mettre un String et cast to Timestamp
+            String taskDeadline, // Mettre un String et cast to Timestamp
             String username,
             String categoryName
     ) {
@@ -31,7 +31,7 @@ public class SearchSpecification {
 
             // Filtrer par deadline
             if (taskDeadline != null) {
-                predicates.add(criteriaBuilder.equal(root.get("deadline"), taskDeadline));
+                predicates.add(criteriaBuilder.equal(root.get("deadline"), Timestamp.valueOf(taskDeadline)));
             }
 
             // Filtrer par utilisateur assigné

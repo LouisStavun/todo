@@ -59,7 +59,7 @@ public class Controller {
     public List<Task> searchTasks(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
-            @RequestParam(required = false) Timestamp deadline,
+            @RequestParam(required = false) String deadline,
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String categoryName
     ) {

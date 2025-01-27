@@ -16,7 +16,7 @@ public class SearchServiceImplementation implements SearchService {
     @Autowired
     private SearchRepository searchRepository;
 
-    public List<Task> searchTasks(String name, String description, Timestamp deadline, String username, String categoryName) {
+    public List<Task> searchTasks(String name, String description, String deadline, String username, String categoryName) {
         Specification<Task> spec = SearchSpecification.filterTasks(name, description, deadline, username, categoryName);
         return searchRepository.findAll(spec);
     }

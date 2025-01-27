@@ -10,5 +10,5 @@ import java.util.List;
 
 public interface SearchService {
 
-    public List<Task> searchTasks(String name, String description, Timestamp deadline, String username, String categoryName);
+    public List<Task> searchTasks(String name, String description, String deadline, String username, String categoryName);
 }
