@@ -4,6 +4,8 @@ import ch.cern.todo.model.Task;
 import ch.cern.todo.service.SearchService;
 import ch.cern.todo.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,13 +51,14 @@ public class Controller {
         return "This is the delete request";
     }
 
-    // Endpoint pour récupérer des tâches par nom
-    @GetMapping("/tasks/search")
-    public List<Task> getTasksByName(@RequestParam String name) {
-        return taskService.getTasksByName(name);
-    }
+//    // Endpoint pour récupérer des tâches par nom
+//    @GetMapping("/tasks/search")
+//    public List<Task> getTasksByName(@RequestParam String name) {
+//        return taskService.getTasksByName(name);
+//    }
 
-    @GetMapping("/tasks/truc")
+    @GetMapping("/tasks/search")
+    @PreAuthorize("hasRole('ADMIN') or #username == authentication.name")
     public List<Task> searchTasks(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
