@@ -11,4 +11,8 @@ public interface TaskCategoryService {
     TaskCategory getById(int id);
 
     List<TaskCategory> getAllTasks();
+
+    TaskCategory getByName(String name);
+
+    TaskCategory createTaskCategory(String category_name, String categoryDescription);
 }

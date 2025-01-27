@@ -30,7 +30,17 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
     }
 
     @Override
+    public TaskCategory getByName(String name) throws TaskCategoryNotFoundException {
+        return taskCategoryRepository.findByCategoryName(name);
+    }
+
+    @Override
     public List<TaskCategory> getAllTasks() {
         return taskCategoryRepository.findAll();
+    }
+
+    public TaskCategory createTaskCategory(String category_name, String categoryDescription){
+        TaskCategory taskCategory = new TaskCategory(category_name, categoryDescription);
+        return taskCategoryRepository.save(taskCategory);
     }
 }

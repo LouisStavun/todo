@@ -2,16 +2,28 @@ package ch.cern.todo.service;
 
 import ch.cern.todo.exception.TaskNotFoundException;
 import ch.cern.todo.model.Task;
+import ch.cern.todo.model.TaskCategory;
+import ch.cern.todo.model.UserApp;
+import ch.cern.todo.repository.TaskCategoryRepository;
 import org.springframework.stereotype.Service;
 import ch.cern.todo.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
 public class TaskServiceImplementation implements TaskService{
 
+    @Autowired
     TaskRepository taskRepository;
+
+    @Autowired
+    TaskCategoryService taskCategoryService;
+
+
+    @Autowired
+    TaskCategoryRepository taskCategoryRepository;
 
     @Autowired
     public void setTaskRepository(TaskRepository taskRepository) {
@@ -46,5 +58,16 @@ public class TaskServiceImplementation implements TaskService{
         return ret;
     }
 
+
+    public Task createTask(String taskName, String taskDescription, Timestamp deadline,
+                           String taskCategoryName, UserApp user) {
+
+        TaskCategory taskCategory = taskCategoryRepository.findByCategoryName(taskCategoryName);
+        if (taskCategory == null){
+            taskCategory = taskCategoryService.createTaskCategory(taskCategoryName,null);
+        }
+        Task task = new Task(taskName,taskDescription,deadline,taskCategory,user);
+        return taskRepository.save(task);
+    }
 
 }

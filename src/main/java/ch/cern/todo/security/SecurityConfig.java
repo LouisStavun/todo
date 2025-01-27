@@ -44,9 +44,10 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 // Désactive CSRF pour la console H2
-                .csrf(csrf -> csrf
+                /*.csrf(csrf -> csrf
                         .ignoringRequestMatchers("/h2-console/**")
-                )
+                )*/
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz ->
                         authz
                                 .requestMatchers("/h2-console/**").permitAll() // Permet l'accès à la console H2 sans authentification
