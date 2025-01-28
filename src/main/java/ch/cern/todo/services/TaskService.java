@@ -17,11 +17,11 @@ public interface TaskService {
 
     Task createTask(String taskName, String taskDescription, Timestamp deadline, String taskCategoryName, UserApp user);
 
-    Long deleteTasks(UserApp user, String name, String description, String deadline, String username, String categoryName);
+    String deleteTasks(UserApp user, String name, String description, String deadline, String username, String categoryName);
 
-    void deleteTaskById(int id, UserApp user);
+    String deleteTaskById(int id, UserApp user);
 
-    Task partialUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName);
+    String partialUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName);
 
-    Task completeUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName);
+    String completeUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName);
 }

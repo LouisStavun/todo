@@ -106,23 +106,33 @@ public class TaskServiceImplementation implements TaskService {
      * @return 1 if deleted successfully, 0 otherwise.
      */
     @Override
-    public Long deleteTasks(UserApp user, String name, String description, String deadline, String username, String categoryName) {
+    public String deleteTasks(UserApp user, String name, String description, String deadline, String username, String categoryName) {
         Specification<Task> spec = searchService.filterTasks(user, name, description, deadline, username, categoryName);
-        return searchRepository.delete(spec);
+        long result = searchRepository.delete(spec);
+        if (result == 1) {
+            return "SUCCESS";
+        }
+        return "FAILURE";
     }
 
     /**
-     * Retrieves a Task by its ID.
+     * Retrieves and deletes a Task by its ID.
      *
      * @param id
      * @param currentUser
      */
     @Override
-    public void deleteTaskById(int id, UserApp currentUser) {
-        if (currentUser.isAdmin()) {
-            Optional<Task> taskById = taskRepository.findById(id);
-            taskById.ifPresent(task -> taskRepository.delete(task));
+    public String deleteTaskById(int id, UserApp currentUser) {
+        Optional<Task> taskById = taskRepository.findById(id);
+        if (taskById.isPresent()) {
+            Task task = taskById.get();
+            if (currentUser.isAdmin() || task.getUserAssigned().getUsername().equals(currentUser.getUsername())) {
+                taskRepository.delete(task);
+                return "SUCCESS";
+            }
+            return "NOT_ADMIN";
         }
+        return "NOT_FOUND";
     }
 
 
@@ -139,7 +149,7 @@ public class TaskServiceImplementation implements TaskService {
      * @return the updated Task.
      */
     @Override
-    public Task partialUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName) {
+    public String partialUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName) {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
             Task taskToUpdate = task.get();
@@ -162,10 +172,12 @@ public class TaskServiceImplementation implements TaskService {
                     TaskCategory taskCategory = getTaskCategory(categoryName);
                     taskToUpdate.setTaskCategory(taskCategory);
                 }
-                return taskRepository.save(taskToUpdate);
+                taskRepository.save(taskToUpdate);
+                return "SUCCESS";
             }
+            return "NOT_ALLOWED_USER";
         }
-        return null;
+        return "NOT_FOUND";
     }
 
     /**
@@ -181,7 +193,7 @@ public class TaskServiceImplementation implements TaskService {
      * @return
      */
     @Override
-    public Task completeUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName) {
+    public String completeUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName) {
         Optional<Task> task = taskRepository.findById(id);
         if (task.isPresent()) {
             Task taskToUpdate = task.get();
@@ -196,10 +208,12 @@ public class TaskServiceImplementation implements TaskService {
                 TaskCategory taskCategory = getTaskCategory(categoryName);
                 taskToUpdate.setTaskCategory(taskCategory);
 
-                return taskRepository.save(taskToUpdate);
+                taskRepository.save(taskToUpdate);
+                return "SUCCESS";
             }
+            return "NOT_ALLOWED_USER";
         }
-        return null;
+        return "NOT_FOUND";
     }
 
 

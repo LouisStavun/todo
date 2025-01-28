@@ -6,6 +6,8 @@ import ch.cern.todo.repositories.UserRepository;
 import ch.cern.todo.services.SearchService;
 import ch.cern.todo.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
@@ -94,7 +96,7 @@ public class TasksController {
      * @return 1 if the Task has been successfully deleted, O otherwise.
      */
     @DeleteMapping("/delete")
-    public Long deleteTasks(
+    public ResponseEntity<String> deleteTasks(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) String deadline,
@@ -102,7 +104,13 @@ public class TasksController {
             @RequestParam(required = false) String categoryName) {
 
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
-        return taskService.deleteTasks(currentUser, name, description, deadline, username, categoryName);
+        String result = taskService.deleteTasks(currentUser, name, description, deadline, username, categoryName);
+
+        return switch (result) {
+            case "SUCCESS" -> ResponseEntity.ok("Task successfully deleted !");
+            case "FAILURE" -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found or you don't have permission to delete this task.");
+            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+        };
     }
 
 
@@ -111,11 +119,19 @@ public class TasksController {
      * @param id
      */
     @DeleteMapping("/delete/{id}")
-    public void deleteTaskById(
+    public ResponseEntity<String> deleteTaskById(
             @PathVariable Integer id
     ){
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
-        taskService.deleteTaskById(id,currentUser);
+        String result = taskService.deleteTaskById(id,currentUser);
+
+        return switch (result) {
+            case "SUCCESS" -> ResponseEntity.ok("Task successfully deleted !");
+            case "NOT_FOUND" -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found.");
+            case "NOT_ADMIN" ->
+                    ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have the required permissions to delete this task.");
+            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+        };
     }
 
     /**
@@ -130,7 +146,7 @@ public class TasksController {
      * @return the Task updated.
      */
     @PatchMapping("/partialUpdate/{id}")
-    public Task updateTask(
+    public ResponseEntity<String> updateTask(
             @PathVariable Integer id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
@@ -139,11 +155,19 @@ public class TasksController {
             @RequestParam(required = false) String categoryName
     ) {
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
-        return taskService.partialUpdateTask(id, currentUser, name, description, deadline, username, categoryName);
+        String result = taskService.partialUpdateTask(id, currentUser, name, description, deadline, username, categoryName);
+
+        return switch (result) {
+            case "SUCCESS" -> ResponseEntity.ok("Task successfully modified !");
+            case "NOT_FOUND" -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found.");
+            case "NOT_ALLOWED_USER" ->
+                    ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have the required permissions to modify this task. You have to be an admin or the assigned user.");
+            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+        };
     }
 
     @PutMapping("/completeUpdate/{id}")
-    public Task updateTaskComplete(
+    public ResponseEntity<String> updateTaskComplete(
             @PathVariable Integer id,
             @RequestParam String name,
             @RequestParam String description,
@@ -152,6 +176,14 @@ public class TasksController {
             @RequestParam String categoryName
     ) {
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
-        return taskService.completeUpdateTask(id, currentUser, name, description, deadline, username, categoryName);
+        String result = taskService.completeUpdateTask(id, currentUser, name, description, deadline, username, categoryName);
+
+        return switch (result) {
+            case "SUCCESS" -> ResponseEntity.ok("Task successfully modified !");
+            case "NOT_FOUND" -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found.");
+            case "NOT_ALLOWED_USER" ->
+                    ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have the required permissions to modify this task. You have to be an admin or the assigned user.");
+            default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
+        };
     }
 }
