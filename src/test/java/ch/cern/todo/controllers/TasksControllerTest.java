@@ -2,6 +2,7 @@ package ch.cern.todo.controllers;
 
 import ch.cern.todo.models.Task;
 import ch.cern.todo.models.UserApp;
+import ch.cern.todo.repositories.TaskRepository;
 import ch.cern.todo.repositories.UserRepository;
 import ch.cern.todo.services.TaskService;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,6 +23,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -39,6 +43,9 @@ class TasksControllerTest {
 
     @InjectMocks
     private TasksController tasksController;
+
+    @Mock
+    private TaskRepository taskRepository;
 
     @BeforeEach
     void setUp() {
@@ -88,6 +95,27 @@ class TasksControllerTest {
         assertEquals(name, createdTask.getTaskName());  // Checks name is correct
         assertEquals(description, createdTask.getTaskDescription());  // Check description is correct
         assertEquals(Timestamp.valueOf(deadline), createdTask.getDeadline());  // Checks deadline is correct
+    }
+
+    @Test
+    void testSearchTaskById() {
+        // Arrange
+        int taskId = 1;
+        Task task = new Task();
+        task.setTask_id(taskId);
+        task.setTaskName("Test Task");
+
+        // Mock the repository call
+        when(taskRepository.findById(taskId)).thenReturn(Optional.of(task));
+
+        // Act
+        ResponseEntity<Object> response = tasksController.searchTaskById(taskId);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());  // Checks HTTP status 200
+        assertNotNull(response.getBody());  // Checks body is not null
+        Task returnedTask = (Task) response.getBody();
+        assertEquals("Test Task", returnedTask.getTaskName());  // Checks task name is correct
     }
 
 }

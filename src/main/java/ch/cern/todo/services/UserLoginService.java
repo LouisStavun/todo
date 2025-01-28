@@ -35,7 +35,7 @@ public class UserLoginService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserApp user = userRepository.findByUserName(username);
         if (user == null || user.getPassword() == null || user.getPassword().isEmpty()) {
-            throw new UsernameNotFoundException("Utilisateur ou mot de passe non trouvé");
+            throw new UsernameNotFoundException("User or password not found.");
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),

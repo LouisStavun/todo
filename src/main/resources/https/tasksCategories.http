@@ -1,4 +1,4 @@
-### Creates a new Category
+### Creates a new Category named "Test Category"
 
 POST http://localhost:8080/categories/create?categoryDescription=This is a Description&categoryName=Test category
 Authorization: Basic YWRtaW4xOmFkbWlu
@@ -8,22 +8,27 @@ Authorization: Basic YWRtaW4xOmFkbWlu
 POST http://localhost:8080/categories/create?categoryDescription=This is a Description&categoryName=Test 2 category
 Authorization: Basic dXNlcjE6dXNlcg==
 
-###
+### Retrieves the Category name "Test Category"
 
-GET http://localhost:8080/tasks/search?categoryName=Category 1
+GET http://localhost:8080/categories/search?categoryName=Test category
 Authorization: Basic YWRtaW4xOmFkbWlu
 
-###
+### Retrieves the Category with ID = 2
+
+GET http://localhost:8080/categories/search/2
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+### Deletes the Category named "Category 1"
 
 DELETE http://localhost:8080/categories/delete?categoryName=Category 1
 Authorization: Basic YWRtaW4xOmFkbWlu
 
-###
+### Deletes the Category with ID = 3
 
 DELETE http://localhost:8080/categories/delete/3
 Authorization: Basic YWRtaW4xOmFkbWlu
 
-###
+### Updates the whole Category with ID = 5
 
 PATCH http://localhost:8080/categories/update/5?categoryName=Modified by PATCH &categoryDescription=Last Description
 Authorization: Basic YWRtaW4xOmFkbWlu

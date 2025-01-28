@@ -1,6 +1,5 @@
 package ch.cern.todo.services;
 
-import ch.cern.todo.exceptions.TaskNotFoundException;
 import ch.cern.todo.models.Task;
 import ch.cern.todo.models.TaskCategory;
 import ch.cern.todo.models.UserApp;
@@ -48,11 +47,6 @@ public class TaskServiceImplementation implements TaskService {
         taskRepository.save(task);
     }
 
-    @Override
-    public Task getById(int task_id) throws TaskNotFoundException {
-        return taskRepository.findById(task_id)
-                .orElseThrow(() -> new TaskNotFoundException("Task not existing"));
-    }
 
     @Override
     public List<Task> getAllTasks() {

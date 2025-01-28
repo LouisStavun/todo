@@ -1,7 +1,6 @@
 package ch.cern.todo;
 
 import ch.cern.todo.enums.Role;
-import ch.cern.todo.exceptions.TaskNotFoundException;
 import ch.cern.todo.models.Task;
 import ch.cern.todo.models.TaskCategory;
 import ch.cern.todo.models.UserApp;
@@ -65,7 +64,7 @@ public class TodoApplication implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws TaskNotFoundException {
+    public void run(String... args) {
 
 
         TaskCategory taskCategory1 = new TaskCategory("Category 1", "");

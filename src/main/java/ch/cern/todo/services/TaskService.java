@@ -11,8 +11,6 @@ public interface TaskService {
 
     void addTask(Task task);
 
-    Task getById(int id);
-
     List<Task> getAllTasks();
 
     Task createTask(String taskName, String taskDescription, Timestamp deadline, String taskCategoryName, UserApp user);

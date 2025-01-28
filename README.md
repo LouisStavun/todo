@@ -1,6 +1,6 @@
 Here is my work for this short Spring Boot and ReST API project.
 
-You can find several HTTP requests in tasks.http and tasksCategories.http that are already ready to be sent (please send them in top to bottom order, otherwise you could have HTTP issues).
+You can find several HTTP requests in tasks.http and tasksCategories.http (located in src/main/resources/https) that are already ready to be sent (please send them in top to bottom order, otherwise you could have HTTP issues).
 Please note that not every use case has been covered in those files, so feel free to try any other request that you might want to.
 
 For your information :  <br> 

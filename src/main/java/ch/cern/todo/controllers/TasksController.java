@@ -2,6 +2,7 @@ package ch.cern.todo.controllers;
 
 import ch.cern.todo.models.Task;
 import ch.cern.todo.models.UserApp;
+import ch.cern.todo.repositories.TaskRepository;
 import ch.cern.todo.repositories.UserRepository;
 import ch.cern.todo.services.SearchService;
 import ch.cern.todo.services.TaskService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/tasks")
@@ -29,6 +31,9 @@ public class TasksController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TaskRepository taskRepository;
 
 
     /**
@@ -82,6 +87,20 @@ public class TasksController {
 
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
         return searchService.searchTasks(currentUser, name, description, deadline, username, categoryName);
+    }
+
+    /**
+     * Retrieves a Task by its ID.
+     *
+     * @param id the Task ID
+     * @return the associated Task.
+     */
+    @GetMapping("/search/{id}")
+    public ResponseEntity<Object> searchTaskById(
+            @PathVariable int id
+    ) {
+        Optional<Task> task = taskRepository.findById(id);
+        return task.<ResponseEntity<Object>>map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
 

@@ -1,6 +1,5 @@
 package ch.cern.todo.services;
 
-import ch.cern.todo.exceptions.TaskCategoryNotFoundException;
 import ch.cern.todo.models.TaskCategory;
 import ch.cern.todo.models.UserApp;
 import ch.cern.todo.repositories.TaskCategoryRepository;
@@ -42,10 +41,9 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
      * @param categoryName the Category name
      * @param currentUser  the current Application user
      * @return a String according to the outcome of the deletion.
-     * @throws TaskCategoryNotFoundException exception thrown if the category is not existing
      */
     @Override
-    public String deleteTaskCategoryByName(String categoryName, UserApp currentUser) throws TaskCategoryNotFoundException {
+    public String deleteTaskCategoryByName(String categoryName, UserApp currentUser) {
         if (currentUser.isAdmin()) {
             TaskCategory taskCategory = taskCategoryRepository.findByCategoryName(categoryName);
             taskCategoryRepository.delete(taskCategory);
@@ -82,10 +80,9 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
      * @param categoryName        the Category name
      * @param categoryDescription the Category description
      * @return a String according to the outcome of the deletion.
-     * @throws TaskCategoryNotFoundException exception thrown if the category is not existing
      */
     @Override
-    public String updateTaskCategory(int id, UserApp currentUser, String categoryName, String categoryDescription) throws TaskCategoryNotFoundException {
+    public String updateTaskCategory(int id, UserApp currentUser, String categoryName, String categoryDescription) {
         Optional<TaskCategory> taskCategory = taskCategoryRepository.findById(id);
         if (taskCategory.isPresent()) {
             TaskCategory taskCategoryToUpdate = taskCategory.get();

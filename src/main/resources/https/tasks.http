@@ -10,22 +10,27 @@ POST http://localhost:8080/tasks/create?description=This is a Description&deadli
     categoryName=New Category&name=Task test3
 Authorization: Basic dXNlcjE6dXNlcg==
 
-###
+### Creates a Task and a Task Category
 
 POST http://localhost:8080/tasks/create?deadline=2025-01-23 17:27:34.59174&categoryName=ABC&name=TaskWithoutDescription
 Authorization: Basic YWRtaW4xOmFkbWlu
 
-###
+### Retrieves all tasks assigned to admin1
 
 GET http://localhost:8080/tasks/search?username=admin1
 Authorization: Basic YWRtaW4xOmFkbWlu
 
-###
+### Retrieves all tasks that have Category 1 as a Category
 
-GET http://localhost:8080/tasks/search?username=admin1&deadline=2025-01-23 17:27:34.59174
+GET http://localhost:8080/tasks/search?categoryName=Category 1
 Authorization: Basic YWRtaW4xOmFkbWlu
 
-###
+### Retrieves the Task with ID = 3
+
+GET http://localhost:8080/tasks/search/3
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+### Deletes the Task named TaskWithoutDescription
 
 DELETE http://localhost:8080/tasks/delete?name=TaskWithoutDescription
 Authorization: Basic YWRtaW4xOmFkbWlu
@@ -35,17 +40,17 @@ Authorization: Basic YWRtaW4xOmFkbWlu
 DELETE http://localhost:8080/tasks/delete?name=Task 1
 Authorization: Basic dXNlcjE6dXNlcg==
 
-###
+### Retrieves the Task with ID = 2
 
 DELETE http://localhost:8080/tasks/delete/2
 Authorization: Basic YWRtaW4xOmFkbWlu
 
-###
+### Partially updates the Task with ID = 1 by changing its name to "new name"
 
 PATCH http://localhost:8080/tasks/partialUpdate/1?name=new name
 Authorization: Basic YWRtaW4xOmFkbWlu
 
-###
+### Partially updates the Task with ID = 5 by changing its name to "Task modified by admin" and its user assigned to user2
 
 PATCH http://localhost:8080/tasks/partialUpdate/5?name=Task modified by admin &username=user2
 Authorization: Basic YWRtaW4xOmFkbWlu
@@ -55,7 +60,8 @@ Authorization: Basic YWRtaW4xOmFkbWlu
 PATCH http://localhost:8080/tasks/partialUpdate/5?name=Task modified by user 1&username=user1
 Authorization: Basic dXNlcjE6dXNlcg==
 
-###
+### Updates the whole Task with ID = 5
 
-PUT http://localhost:8080/tasks/completeUpdate/5?name=Task modified by PUT &username=admin2&deadline=2025-01-23 17:27:34.59174&description=Super&categoryName=CategoryCreatedByPUT
+PUT http://localhost:8080/tasks/completeUpdate/5?name=Task modified by PUT &username=admin2&
+    deadline=2025-01-23 17:27:34.59174&description=Super&categoryName=CategoryCreatedByPUT
 Authorization: Basic YWRtaW4xOmFkbWlu

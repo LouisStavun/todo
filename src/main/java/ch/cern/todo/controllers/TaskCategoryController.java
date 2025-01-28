@@ -2,6 +2,7 @@ package ch.cern.todo.controllers;
 
 import ch.cern.todo.models.TaskCategory;
 import ch.cern.todo.models.UserApp;
+import ch.cern.todo.repositories.TaskCategoryRepository;
 import ch.cern.todo.repositories.UserRepository;
 import ch.cern.todo.services.TaskCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/categories")
@@ -21,6 +24,9 @@ public class TaskCategoryController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TaskCategoryRepository taskCategoryRepository;
 
     /**
      * Retrieves current User of the application.
@@ -46,6 +52,32 @@ public class TaskCategoryController {
         return taskCategoryService.createTaskCategory(categoryName, categoryDescription);
     }
 
+
+    /**
+     * Retrieves a Task Category by its name.
+     *
+     * @param categoryName the Tasks Category name
+     * @return the associated Task Category.
+     */
+    @GetMapping("/search")
+    public TaskCategory searchCategory(
+            @RequestParam String categoryName) {
+        return taskCategoryRepository.findByCategoryName(categoryName);
+    }
+
+    /**
+     * Retrieves a Task Category by its ID.
+     *
+     * @param id the Tasks Category ID
+     * @return the associated Task Category.
+     */
+    @GetMapping("/search/{id}")
+    public ResponseEntity<Object> searchCategoryByID(
+            @PathVariable int id) {
+
+        Optional<TaskCategory> taskCategory = taskCategoryRepository.findById(id);
+        return taskCategory.<ResponseEntity<Object>>map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
 
     /**
      * Retrieves a Task Category stored in the Database by its name and deletes it.
