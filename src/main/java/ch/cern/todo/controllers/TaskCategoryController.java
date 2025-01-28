@@ -61,7 +61,6 @@ public class TaskCategoryController {
 
         return switch (result) {
             case "SUCCESS" -> ResponseEntity.ok("Category successfully deleted !");
-            case "NOT_FOUND" -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category not found.");
             case "NOT_ADMIN" ->
                     ResponseEntity.status(HttpStatus.FORBIDDEN).body("You do not have the required permissions to delete this category.");
             default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
