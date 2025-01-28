@@ -1,0 +1,61 @@
+### Creates a new Task
+
+POST http://localhost:8080/tasks/create?description=This is a Description&deadline=2025-01-23 17:27:34.59174&
+    categoryName=New Category&name=Task test
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+### Anyone can create a new Task
+
+POST http://localhost:8080/tasks/create?description=This is a Description&deadline=2025-01-23 17:27:34.59174&
+    categoryName=New Category&name=Task test3
+Authorization: Basic dXNlcjE6dXNlcg==
+
+###
+
+POST http://localhost:8080/tasks/create?deadline=2025-01-23 17:27:34.59174&categoryName=ABC&name=TaskWithoutDescription
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+###
+
+GET http://localhost:8080/tasks/search?username=admin1
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+###
+
+GET http://localhost:8080/tasks/search?username=admin1&deadline=2025-01-23 17:27:34.59174
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+###
+
+DELETE http://localhost:8080/tasks/delete?name=TaskWithoutDescription
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+### Won't work because the user is not an admin or the one assigned to the task
+
+DELETE http://localhost:8080/tasks/delete?name=Task 1
+Authorization: Basic dXNlcjE6dXNlcg==
+
+###
+
+DELETE http://localhost:8080/tasks/delete/2
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+###
+
+PATCH http://localhost:8080/tasks/partialUpdate/1?name=new name
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+###
+
+PATCH http://localhost:8080/tasks/partialUpdate/5?name=Task modified by admin &username=user2
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+### Won't work because the user is not an admin or the one assigned to the task
+
+PATCH http://localhost:8080/tasks/partialUpdate/5?name=Task modified by user 1&username=user1
+Authorization: Basic dXNlcjE6dXNlcg==
+
+###
+
+PUT http://localhost:8080/tasks/completeUpdate/5?name=Task modified by PUT &username=admin2&deadline=2025-01-23 17:27:34.59174&description=Super&categoryName=CategoryCreatedByPUT
+Authorization: Basic YWRtaW4xOmFkbWlu

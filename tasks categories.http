@@ -1,0 +1,29 @@
+### Creates a new Category
+
+POST http://localhost:8080/categories/create?categoryDescription=This is a Description&categoryName=Test category
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+### Anyone can create a new Category
+
+POST http://localhost:8080/categories/create?categoryDescription=This is a Description&categoryName=Test 2 category
+Authorization: Basic dXNlcjE6dXNlcg==
+
+###
+
+GET http://localhost:8080/tasks/search?categoryName=Category 1
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+###
+
+DELETE http://localhost:8080/categories/delete?categoryName=Category 1
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+###
+
+DELETE http://localhost:8080/categories/delete/3
+Authorization: Basic YWRtaW4xOmFkbWlu
+
+###
+
+PATCH http://localhost:8080/categories/update/5?categoryName=Modified by PATCH &categoryDescription=Last Description
+Authorization: Basic YWRtaW4xOmFkbWlu
