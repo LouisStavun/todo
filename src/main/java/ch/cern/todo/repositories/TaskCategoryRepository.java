@@ -1,6 +1,6 @@
-package ch.cern.todo.repository;
+package ch.cern.todo.repositories;
 
-import ch.cern.todo.model.TaskCategory;
+import ch.cern.todo.models.TaskCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

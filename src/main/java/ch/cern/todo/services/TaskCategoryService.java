@@ -1,19 +1,10 @@
-package ch.cern.todo.service;
+package ch.cern.todo.services;
 
-import ch.cern.todo.model.Task;
-import ch.cern.todo.model.TaskCategory;
-import ch.cern.todo.model.UserApp;
-
-import java.util.List;
+import ch.cern.todo.models.TaskCategory;
+import ch.cern.todo.models.UserApp;
 
 public interface TaskCategoryService {
     void addTaskCategory(TaskCategory taskCategory);
-
-    TaskCategory getById(int id);
-
-    List<TaskCategory> getAllTasks();
-
-    TaskCategory getByName(String name);
 
     TaskCategory createTaskCategory(String category_name, String categoryDescription);
 

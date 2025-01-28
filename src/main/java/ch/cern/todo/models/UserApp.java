@@ -1,17 +1,22 @@
-package ch.cern.todo.model;
+package ch.cern.todo.models;
 
-import ch.cern.todo.enumeration.Role;
-import jakarta.persistence.*;
+import ch.cern.todo.enums.Role;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class UserApp implements UserDetails {
+
+    public UserApp() {
+
+    }
 
     @Id
     private String userName;
@@ -26,34 +31,19 @@ public class UserApp implements UserDetails {
         this.role = role;
     }
 
-    public UserApp() {
-
-    }
 
     public boolean isAdmin() {
         return this.role.equals(Role.ADMIN);
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(() -> "ROLE_" + role.name());  // Ajout de l'autorité basée sur le rôle
-    }
-
-    public String getPassword() {
-        return password;
+        return List.of(() -> "ROLE_" + role.name());
     }
 
     @Override
     public String getUsername() {
-        return userName;  // Retourne le nom d'utilisateur
+        return userName;
     }
 
     @Override
@@ -74,6 +64,14 @@ public class UserApp implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {

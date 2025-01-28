@@ -1,4 +1,4 @@
-package ch.cern.todo.model;
+package ch.cern.todo.models;
 
 import jakarta.persistence.*;
 
@@ -8,6 +8,10 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 
 @Entity
 public class Task {
+
+    public Task() {
+    }
+
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -32,9 +36,7 @@ public class Task {
     @JoinColumn(name = "userID_assigned")
     private UserApp userAssigned;
 
-    public Task(String taskName, String taskDescription, Timestamp deadline,
-                TaskCategory taskCategory, UserApp user) {
-        super();
+    public Task(String taskName, String taskDescription, Timestamp deadline, TaskCategory taskCategory, UserApp user) {
         this.taskName = taskName;
         this.taskDescription = taskDescription;
         this.deadline = deadline;
@@ -42,13 +44,11 @@ public class Task {
         this.userAssigned = user;
     }
 
-    public Task() {}
-
-
 
     public String getTaskName() {
         return taskName;
     }
+
     public void setTask_id(Integer task_id) {
         this.task_id = task_id;
     }

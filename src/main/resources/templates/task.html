@@ -1,43 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="fr">
 <head>
-    <title>Liste des Tâches</title>
+    <title>Tasks</title>
 </head>
 <body>
-<h1>Liste des Tâches</h1>
+<h1>Tasks</h1>
 <ul>
-    <!-- Boucle sur chaque tâche dans la liste "tasks" -->
+    <!-- Iterates on every task in "tasks" -->
     <li th:each="task : ${tasks}">
         <p>
-            <strong>Nom de la tâche :</strong>
-            <span th:text="${task.taskName}">Nom de la tâche</span>
+            <strong>Task's name:</strong>
+            <span th:text="${task.taskName}">Task's name</span>
         </p>
         <p>
             <strong>Description :</strong>
-            <span th:text="${task.taskDescription}">Description de la tâche</span>
+            <span th:text="${task.taskDescription}">Task's description</span>
         </p>
         <p>
             <strong>Deadline :</strong>
-            <span th:text="${#dates.format(task.deadline, 'dd/MM/yyyy HH:mm')}">Deadline</span>
+            <span th:text="${#dates.format(task.deadline, 'dd/MM/yyyy HH:mm')}">Task's deadline</span>
         </p>
-        <!-- Affichage de la catégorie uniquement si elle existe -->
         <p th:if="${task.taskCategory != null}">
-            <strong>Catégorie :</strong>
-            <span th:text="${task.taskCategory.categoryName}">Catégorie</span>
+            <strong>Category :</strong>
+            <span th:text="${task.taskCategory.categoryName}">Task's category</span>
         </p>
         <p th:if="${task.taskCategory == null}">
             <strong>Catégorie :</strong>
-            Non spécifiée
+            Unspecified
         </p>
 
-        <!-- Affichage de l'utilisateur assigné uniquement si assigné -->
         <p th:if="${task.userAssigned != null}">
-            <strong>Assignée à :</strong>
-            <span th:text="${task.userAssigned.username}">Utilisateur assigné</span>
+            <strong>Assigned to :</strong>
+            <span th:text="${task.userAssigned.username}">User Assigned</span>
         </p>
         <p th:if="${task.userAssigned == null}">
-            <strong>Assignée à :</strong>
-            Non assignée
+            <strong>Assigned to :</strong>
+            Unspecified
         </p>
         <hr>
     </li>

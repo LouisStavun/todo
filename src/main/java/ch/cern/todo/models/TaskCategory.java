@@ -1,4 +1,4 @@
-package ch.cern.todo.model;
+package ch.cern.todo.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,6 +10,10 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 public class TaskCategory {
 
+    public TaskCategory() {
+
+    }
+
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Integer category_id;
@@ -20,14 +24,11 @@ public class TaskCategory {
     @Column(length = 500)
     private String categoryDescription;
 
-    public TaskCategory(String category_name, String categoryDescription) {
-        this.categoryName = category_name;
+    public TaskCategory(String categoryName, String categoryDescription) {
+        this.categoryName = categoryName;
         this.categoryDescription = categoryDescription;
     }
 
-    public TaskCategory() {
-
-    }
 
     public Integer getCategory_id() {
         return category_id;
@@ -41,15 +42,15 @@ public class TaskCategory {
         return categoryName;
     }
 
-    public void setCategoryName(String category_name) {
-        this.categoryName = category_name;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getCategoryDescription() {
         return categoryDescription;
     }
 
-    public void setCategoryDescription(String category_description) {
-        this.categoryDescription = category_description;
+    public void setCategoryDescription(String categoryDescription) {
+        this.categoryDescription = categoryDescription;
     }
 }
