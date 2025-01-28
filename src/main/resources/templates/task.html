@@ -10,19 +10,19 @@
     <li th:each="task : ${tasks}">
         <p>
             <strong>Task's name:</strong>
-            <span th:text="${task.taskName}">Task's name</span>
+            <span th:text="${task.taskName}">Task name</span>
         </p>
         <p>
             <strong>Description :</strong>
-            <span th:text="${task.taskDescription}">Task's description</span>
+            <span th:text="${task.taskDescription}">Task description</span>
         </p>
         <p>
             <strong>Deadline :</strong>
-            <span th:text="${#dates.format(task.deadline, 'dd/MM/yyyy HH:mm')}">Task's deadline</span>
+            <span th:text="${#dates.format(task.deadline, 'dd/MM/yyyy HH:mm')}">Task deadline</span>
         </p>
         <p th:if="${task.taskCategory != null}">
             <strong>Category :</strong>
-            <span th:text="${task.taskCategory.categoryName}">Task's category</span>
+            <span th:text="${task.taskCategory.categoryName}">Task category</span>
         </p>
         <p th:if="${task.taskCategory == null}">
             <strong>Catégorie :</strong>
