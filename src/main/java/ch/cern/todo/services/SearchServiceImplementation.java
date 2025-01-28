@@ -1,6 +1,7 @@
 package ch.cern.todo.services;
 
 import ch.cern.todo.models.Task;
+import ch.cern.todo.models.UserApp;
 import ch.cern.todo.repositories.SearchRepository;
 import ch.cern.todo.repositories.UserRepository;
 import jakarta.persistence.criteria.Predicate;
@@ -34,7 +35,7 @@ public class SearchServiceImplementation implements SearchService {
      * @param categoryName
      * @return the list of Tasks corresponding to all the arguments
      */
-    public List<Task> searchTasks(UserDetails user, String name, String description, String deadline, String username, String categoryName) {
+    public List<Task> searchTasks(UserApp user, String name, String description, String deadline, String username, String categoryName) {
         Specification<Task> spec = filterTasks(user, name, description, deadline, username, categoryName);
         return searchRepository.findAll(spec);
     }

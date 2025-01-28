@@ -78,7 +78,7 @@ public class TasksController {
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String categoryName) {
 
-        UserDetails currentUser = this.getCurrentUser();
+        UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
         return searchService.searchTasks(currentUser, name, description, deadline, username, categoryName);
     }
 
@@ -101,7 +101,7 @@ public class TasksController {
             @RequestParam(required = false) String username,
             @RequestParam(required = false) String categoryName) {
 
-        UserDetails currentUser = this.getCurrentUser();
+        UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
         return taskService.deleteTasks(currentUser, name, description, deadline, username, categoryName);
     }
 
@@ -129,7 +129,7 @@ public class TasksController {
      * @param categoryName
      * @return the Task updated.
      */
-    @PatchMapping("/update/{id}")
+    @PatchMapping("/partialUpdate/{id}")
     public Task updateTask(
             @PathVariable Integer id,
             @RequestParam(required = false) String name,
@@ -139,8 +139,19 @@ public class TasksController {
             @RequestParam(required = false) String categoryName
     ) {
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
-        return taskService.updateTask(id, currentUser, name, description, deadline, username, categoryName);
-
+        return taskService.partialUpdateTask(id, currentUser, name, description, deadline, username, categoryName);
     }
 
+    @PutMapping("/completeUpdate/{id}")
+    public Task updateTaskComplete(
+            @PathVariable Integer id,
+            @RequestParam String name,
+            @RequestParam String description,
+            @RequestParam String deadline,
+            @RequestParam String username,
+            @RequestParam String categoryName
+    ) {
+        UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
+        return taskService.completeUpdateTask(id, currentUser, name, description, deadline, username, categoryName);
+    }
 }
