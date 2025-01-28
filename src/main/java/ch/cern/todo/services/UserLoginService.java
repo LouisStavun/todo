@@ -26,6 +26,7 @@ public class UserLoginService implements UserDetailsService {
 
     /**
      * Loads user and its associated password
+     *
      * @param username
      * @return UserDetails associated
      * @throws UsernameNotFoundException

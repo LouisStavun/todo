@@ -104,7 +104,7 @@ public class TaskCategoryController {
             @RequestParam(required = false) String categoryDescription
     ) {
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
-        String result= taskCategoryService.updateTaskCategory(id, currentUser, categoryName, categoryDescription);
+        String result = taskCategoryService.updateTaskCategory(id, currentUser, categoryName, categoryDescription);
 
         return switch (result) {
             case "SUCCESS" -> ResponseEntity.ok("Category successfully modified !");

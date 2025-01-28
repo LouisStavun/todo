@@ -108,7 +108,8 @@ public class TasksController {
 
         return switch (result) {
             case "SUCCESS" -> ResponseEntity.ok("Task successfully deleted !");
-            case "FAILURE" -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found or you don't have permission to delete this task.");
+            case "FAILURE" ->
+                    ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task not found or you don't have permission to delete this task.");
             default -> ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
         };
     }
@@ -116,14 +117,15 @@ public class TasksController {
 
     /**
      * Retrieves a Task stored in the Database by its ID and deletes it.
+     *
      * @param id
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteTaskById(
             @PathVariable Integer id
-    ){
+    ) {
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
-        String result = taskService.deleteTaskById(id,currentUser);
+        String result = taskService.deleteTaskById(id, currentUser);
 
         return switch (result) {
             case "SUCCESS" -> ResponseEntity.ok("Task successfully deleted !");

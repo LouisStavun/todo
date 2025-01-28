@@ -42,6 +42,7 @@ public class TodoApplication implements CommandLineRunner {
 
     /**
      * Load Users and encodes their password into the Database. Done in first to avoid User assignment issues.
+     *
      * @param userRepository
      * @param passwordEncoder
      * @return

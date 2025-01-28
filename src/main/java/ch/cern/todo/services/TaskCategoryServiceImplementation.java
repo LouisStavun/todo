@@ -48,7 +48,7 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
         if (currentUser.isAdmin()) {
             TaskCategory taskCategory = taskCategoryRepository.findByCategoryName(categoryName);
             taskCategoryRepository.delete(taskCategory);
-            if(taskCategory != null) {
+            if (taskCategory != null) {
                 return "SUCCESS";
             }
             return "NOT_FOUND";
