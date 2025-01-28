@@ -46,16 +46,29 @@ public class TaskCategoryController {
 
 
     /**
-     * Deletes a Task Category stored in the Database.
+     * Retrieves a Task Category stored in the Database by its name and deletes it.
      *
      * @param categoryName
      */
     @DeleteMapping("/delete")
-    public void deleteTaskCategory(
+    public void deleteTaskCategoryByName(
             @RequestParam String categoryName
     ) {
         UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
-        taskCategoryService.deleteTaskCategory(categoryName, currentUser);
+        taskCategoryService.deleteTaskCategoryByName(categoryName, currentUser);
+    }
+
+    /**
+     * Retrieves a Task Category stored in the Database by its ID and deletes it.
+     *
+     * @param id
+     */
+    @DeleteMapping("/delete/{id}")
+    public void deleteTaskCategoryById(
+            @PathVariable Integer id
+    ) {
+        UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
+        taskCategoryService.deleteTaskCategoryById(id, currentUser);
     }
 
     /**

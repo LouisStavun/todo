@@ -12,11 +12,15 @@ public interface TaskService {
 
     void addTask(Task task);
 
+    Task getById(int id);
+
     List<Task> getAllTasks();
 
     Task createTask(String taskName, String taskDescription, Timestamp deadline, String taskCategoryName, UserApp user);
 
     Long deleteTasks(UserDetails user, String name, String description, String deadline, String username, String categoryName);
+
+    void deleteTaskById(int id, UserApp user);
 
     Task updateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName);
 }

@@ -1,5 +1,6 @@
 package ch.cern.todo.services;
 
+import ch.cern.todo.exceptions.TaskNotFoundException;
 import ch.cern.todo.models.Task;
 import ch.cern.todo.models.TaskCategory;
 import ch.cern.todo.models.UserApp;
@@ -49,6 +50,12 @@ public class TaskServiceImplementation implements TaskService {
     }
 
     @Override
+    public Task getById(int task_id) throws TaskNotFoundException {
+        return taskRepository.findById(task_id)
+                .orElseThrow(() -> new TaskNotFoundException("Task not existing"));
+    }
+
+    @Override
     public List<Task> getAllTasks() {
         return taskRepository.findAll();
     }
@@ -93,6 +100,15 @@ public class TaskServiceImplementation implements TaskService {
         Specification<Task> spec = searchService.filterTasks(user, name, description, deadline, username, categoryName);
         return searchRepository.delete(spec);
     }
+
+    @Override
+    public void deleteTaskById(int id, UserApp currentUser) {
+        if (currentUser.isAdmin()) {
+            Optional<Task> taskById = taskRepository.findById(id);
+            taskById.ifPresent(task -> taskRepository.delete(task));
+        }
+    }
+
 
     /**
      * Updates a Task stored in the Database.

@@ -44,10 +44,18 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
      * @throws TaskCategoryNotFoundException
      */
     @Override
-    public void deleteTaskCategory(String categoryName, UserApp currentUser) throws TaskCategoryNotFoundException {
+    public void deleteTaskCategoryByName(String categoryName, UserApp currentUser) throws TaskCategoryNotFoundException {
         if (currentUser.isAdmin()) {
             TaskCategory taskCategory = taskCategoryRepository.findByCategoryName(categoryName);
             taskCategoryRepository.delete(taskCategory);
+        }
+    }
+
+    @Override
+    public void deleteTaskCategoryById(int categoryId, UserApp currentUser) {
+        if (currentUser.isAdmin()) {
+            Optional<TaskCategory> taskCategory = taskCategoryRepository.findById(categoryId);
+            taskCategory.ifPresent(category -> taskCategoryRepository.delete(category));
         }
     }
 

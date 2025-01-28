@@ -84,7 +84,7 @@ public class TasksController {
 
 
     /**
-     * Deletes a Task stored in the Database.
+     * Deletes Tasks stored in the Database matching all the arguments.
      *
      * @param name
      * @param description
@@ -94,7 +94,7 @@ public class TasksController {
      * @return 1 if the Task has been successfully deleted, O otherwise.
      */
     @DeleteMapping("/delete")
-    public Long deleteTask(
+    public Long deleteTasks(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String description,
             @RequestParam(required = false) String deadline,
@@ -103,6 +103,19 @@ public class TasksController {
 
         UserDetails currentUser = this.getCurrentUser();
         return taskService.deleteTasks(currentUser, name, description, deadline, username, categoryName);
+    }
+
+
+    /**
+     * Retrieves a Task stored in the Database by its ID and deletes it.
+     * @param id
+     */
+    @DeleteMapping("/delete/{id}")
+    public void deleteTaskById(
+            @PathVariable Integer id
+    ){
+        UserApp currentUser = userRepository.findByUserName(this.getCurrentUser().getUsername());
+        taskService.deleteTaskById(id,currentUser);
     }
 
     /**
