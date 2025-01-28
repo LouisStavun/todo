@@ -1,12 +1,17 @@
-This is a skeleton of Spring Boot application which should be used as a start point to create a working one.
-The goal of this task is to create simple REST API  which allows users to manage TODOs. 
-The API should allow to create/delete/update TODOs and categories as well as search for userApp, name, description, deadline and category in any combination. *For example find all todos for an userApp X where deadline is today and name contains test.* 
-The API should also implement basic authorization/authentication: *User X cannot access TODOs of userApp Y as long as he doesn't have admin role.*
+Here is my work for this short Spring Boot and ReST API project.
 
-You are free to use any library or testing framework in the project.
+You can find several HTTP requests in tasks.http and tasksCategories.http that are already ready to be sent (please send them in top to bottom order, otherwise you could have HTTP issues).
+Please note that not every use case has been covered in those files, so feel free to try any other request that you might want to.
 
-Below you may find a proposition of the DB model:
+For your information :  <br> 
+Authorization: Basic YWRtaW4xOmFkbWlu refers to admin1 <br>
+Authorization: Basic dXNlcjE6dXNlcg== refers to user1 <br>
 
-![DB model](DBModel.png)
+If you want to use PostMan or to connect to http://localhost:8080/home, here are the different users <br>
 
-Once you are ready, please send me **link to your git repository** which contains complete solution
+| ID     | Password | Role associated |
+|--------|----------|-----------------|
+| admin1 | admin    | ADMIN           |
+| admin2 | admin    | ADMIN           |
+| user1  | user     | USER            |
+| user2  | user     | USER            |
