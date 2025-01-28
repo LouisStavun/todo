@@ -24,7 +24,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
     @Autowired
-    private final UserLoginService customUserDetailsService; // Injecte ton CustomUserDetailsService
+    private final UserLoginService customUserDetailsService;
 
     public SecurityConfig(UserLoginService customUserDetailsService) {
         this.customUserDetailsService = customUserDetailsService;
@@ -44,8 +44,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authz ->
                         authz
                                 .requestMatchers("/h2-console/**").permitAll() // User can access DB without having to be authenticated from UserApp
-                                .requestMatchers("/home/**").authenticated() // Authorize access to /home only for authenticated Users
-                                .requestMatchers("/**").permitAll() // Autoriser tout le monde pour les autres routes
+                                .requestMatchers("/home/**", "/tasks/**", "/categories/**").authenticated() // Authorize access to /home, /tasks and /categories only for authenticated Users
                 )
                 .formLogin(form -> form
                         .defaultSuccessUrl("/home", true) // After Login, the user is redirected to /home

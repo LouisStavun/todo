@@ -58,7 +58,7 @@ public class TaskCategoryControllerTest {
     }
 
     @Test
-    void testCreateTaskCategory(){
+    void testCreateTaskCategory() {
         // Arrange
         String name = "Test Task";
         String description = "Test Description";
@@ -72,7 +72,7 @@ public class TaskCategoryControllerTest {
         taskCategory.setCategoryDescription(description);
 
         // Mock dependencies
-        when(taskCategoryService.createTaskCategory(name,description)).thenReturn(taskCategory);
+        when(taskCategoryService.createTaskCategory(name, description)).thenReturn(taskCategory);
 
         // Act
         TaskCategory createdTaskCategory = taskCategoryController.createTaskCategory(name, description);

@@ -27,9 +27,9 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
     /**
      * Creates and saves a Task Category in the Database
      *
-     * @param categoryName
-     * @param categoryDescription
-     * @return the Task Category created
+     * @param categoryName        the Category name
+     * @param categoryDescription the Category description
+     * @return the Task Category created.
      */
     public TaskCategory createTaskCategory(String categoryName, String categoryDescription) {
         TaskCategory taskCategory = new TaskCategory(categoryName, categoryDescription);
@@ -39,9 +39,10 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
     /**
      * Retrieves a Task Category stored in the Database by its name and deletes it.
      *
-     * @param categoryName
-     * @param currentUser
-     * @throws TaskCategoryNotFoundException
+     * @param categoryName the Category name
+     * @param currentUser  the current Application user
+     * @return a String according to the outcome of the deletion.
+     * @throws TaskCategoryNotFoundException exception thrown if the category is not existing
      */
     @Override
     public String deleteTaskCategoryByName(String categoryName, UserApp currentUser) throws TaskCategoryNotFoundException {
@@ -56,8 +57,9 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
     /**
      * Retrieves a Task Category stored in the Database by its ID and deletes it.
      *
-     * @param categoryId
-     * @param currentUser
+     * @param categoryId  the Category ID
+     * @param currentUser the current Application user
+     * @return a String according to the outcome of the deletion.
      */
     @Override
     public String deleteTaskCategoryById(int categoryId, UserApp currentUser) {
@@ -75,12 +77,12 @@ public class TaskCategoryServiceImplementation implements TaskCategoryService {
     /**
      * Updates a Task Category stored in the Database
      *
-     * @param id
-     * @param currentUser
-     * @param categoryName
-     * @param categoryDescription
-     * @return the updated Task Category
-     * @throws TaskCategoryNotFoundException
+     * @param id                  the Category ID
+     * @param currentUser         the current Application user
+     * @param categoryName        the Category name
+     * @param categoryDescription the Category description
+     * @return a String according to the outcome of the deletion.
+     * @throws TaskCategoryNotFoundException exception thrown if the category is not existing
      */
     @Override
     public String updateTaskCategory(int id, UserApp currentUser, String categoryName, String categoryDescription) throws TaskCategoryNotFoundException {

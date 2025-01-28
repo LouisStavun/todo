@@ -34,8 +34,8 @@ public class TaskCategoryController {
     /**
      * Creates and saves a Task Category in the Database.
      *
-     * @param categoryName
-     * @param categoryDescription
+     * @param categoryName        the category name to be created
+     * @param categoryDescription the category description
      * @return the Task Category created.
      */
     @PostMapping("/create")
@@ -50,7 +50,8 @@ public class TaskCategoryController {
     /**
      * Retrieves a Task Category stored in the Database by its name and deletes it.
      *
-     * @param categoryName
+     * @param categoryName the category name
+     * @return an HTTP code according to the outcome of the request.
      */
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteTaskCategoryByName(
@@ -70,7 +71,8 @@ public class TaskCategoryController {
     /**
      * Retrieves a Task Category stored in the Database by its ID and deletes it.
      *
-     * @param id
+     * @param id the id of the category
+     * @return an HTTP code according to the outcome of the request.
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteTaskCategoryById(
@@ -91,10 +93,10 @@ public class TaskCategoryController {
     /**
      * Updates and saves a Task Category stored in the Database.
      *
-     * @param id
-     * @param categoryName
-     * @param categoryDescription
-     * @return the modified Task Category
+     * @param id                  the Task Category id
+     * @param categoryName        the Task Category name
+     * @param categoryDescription the Task Category description
+     * @return an HTTP code according to the outcome of the request.
      */
     @PatchMapping("/update/{id}")
     public ResponseEntity<String> updateCategory(

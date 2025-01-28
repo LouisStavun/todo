@@ -27,12 +27,12 @@ public class SearchServiceImplementation implements SearchService {
     /**
      * Searches every task corresponding to all the arguments
      *
-     * @param user
-     * @param name
-     * @param description
-     * @param deadline
-     * @param username
-     * @param categoryName
+     * @param user         the current Application user
+     * @param name         the names of the Tasks
+     * @param description  the descriptions of the Tasks
+     * @param deadline     the deadlines of the Tasks
+     * @param username     the user assigned to the Tasks
+     * @param categoryName the category assigned to the Tasks
      * @return the list of Tasks corresponding to all the arguments
      */
     public List<Task> searchTasks(UserApp user, String name, String description, String deadline, String username, String categoryName) {
@@ -44,19 +44,19 @@ public class SearchServiceImplementation implements SearchService {
     /**
      * Filters each argument to get every Task corresponding
      *
-     * @param currentUser
-     * @param taskName
-     * @param taskDescription
-     * @param taskDeadline
-     * @param username
-     * @param categoryName
+     * @param user         the current Application user
+     * @param name         the names of the Tasks
+     * @param description  the descriptions of the Tasks
+     * @param deadline     the deadlines of the Tasks
+     * @param username     the user assigned to the Tasks
+     * @param categoryName the category assigned to the Tasks
      * @return a Specification of Tasks, containing every Tasks that match every argument
      */
     public Specification<Task> filterTasks(
-            UserDetails currentUser,
-            String taskName,
-            String taskDescription,
-            String taskDeadline,
+            UserDetails user,
+            String name,
+            String description,
+            String deadline,
             String username,
             String categoryName
     ) {
@@ -64,9 +64,9 @@ public class SearchServiceImplementation implements SearchService {
             List<Predicate> predicates = new ArrayList<>();
 
             // If the current user is not an Admin
-            if (!userRepository.findByUserName(currentUser.getUsername()).isAdmin()) {
+            if (!userRepository.findByUserName(user.getUsername()).isAdmin()) {
                 // We want to be sure that the current user is the one assigned to the task, otherwise he shouldn't have access to the data
-                predicates.add(criteriaBuilder.equal(root.join("userAssigned").get("userName"), currentUser.getUsername()));
+                predicates.add(criteriaBuilder.equal(root.join("userAssigned").get("userName"), user.getUsername()));
             }
 
             // UserAssigned filter
@@ -75,18 +75,18 @@ public class SearchServiceImplementation implements SearchService {
             }
 
             // Task Name filter
-            if (taskName != null && !taskName.isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("taskName"), "%" + taskName + "%"));
+            if (name != null && !name.isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("taskName"), "%" + name + "%"));
             }
 
             // Task Description filter
-            if (taskDescription != null && !taskDescription.isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("taskDescription"), "%" + taskDescription + "%"));
+            if (description != null && !description.isEmpty()) {
+                predicates.add(criteriaBuilder.like(root.get("taskDescription"), "%" + description + "%"));
             }
 
             // Deadline filter
-            if (taskDeadline != null) {
-                predicates.add(criteriaBuilder.equal(root.get("deadline"), Timestamp.valueOf(taskDeadline)));
+            if (deadline != null) {
+                predicates.add(criteriaBuilder.equal(root.get("deadline"), Timestamp.valueOf(deadline)));
             }
 
 

@@ -44,10 +44,10 @@ public class TasksController {
     /**
      * Creates and saves a Task in the Database.
      *
-     * @param name
-     * @param description
-     * @param deadline
-     * @param categoryName
+     * @param name         the Task name
+     * @param description  the Task description
+     * @param deadline     the Task deadline
+     * @param categoryName the Task category
      * @return the created Task.
      */
     @PostMapping("/create")
@@ -65,11 +65,11 @@ public class TasksController {
     /**
      * Searches for every Task matching all the arguments, and returns a list containing them.
      *
-     * @param name
-     * @param description
-     * @param deadline
-     * @param username
-     * @param categoryName
+     * @param name         the Tasks names
+     * @param description  the Tasks descriptions
+     * @param deadline     the Tasks deadlines
+     * @param username     the Tasks assigned users
+     * @param categoryName the Tasks category name
      * @return the associated list of Tasks
      */
     @GetMapping("/search")
@@ -88,12 +88,12 @@ public class TasksController {
     /**
      * Deletes Tasks stored in the Database matching all the arguments.
      *
-     * @param name
-     * @param description
-     * @param deadline
-     * @param username
-     * @param categoryName
-     * @return 1 if the Task has been successfully deleted, O otherwise.
+     * @param name         the Task name
+     * @param description  the Task description
+     * @param deadline     the Task deadline
+     * @param username     the Task assigned user
+     * @param categoryName the Task category
+     * @return an HTTP code according to the outcome of the request.
      */
     @DeleteMapping("/delete")
     public ResponseEntity<String> deleteTasks(
@@ -118,7 +118,8 @@ public class TasksController {
     /**
      * Retrieves a Task stored in the Database by its ID and deletes it.
      *
-     * @param id
+     * @param id the ID of the Task to be deleted
+     * @return an HTTP code according to the outcome of the request.
      */
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteTaskById(
@@ -139,13 +140,13 @@ public class TasksController {
     /**
      * Updates and saves a Task stored in the Database.
      *
-     * @param id
-     * @param name
-     * @param description
-     * @param deadline
-     * @param username
-     * @param categoryName
-     * @return the Task updated.
+     * @param id           the ID of the Task to be deleted
+     * @param name         the Task name
+     * @param description  the Task description
+     * @param deadline     the Task deadline
+     * @param username     the Task assigned user
+     * @param categoryName the Task category
+     * @return an HTTP code according to the outcome of the request.
      */
     @PatchMapping("/partialUpdate/{id}")
     public ResponseEntity<String> updateTask(
@@ -168,6 +169,17 @@ public class TasksController {
         };
     }
 
+    /**
+     * Updates every value of the Task stored in the Database and saves it.
+     *
+     * @param id           the ID of the Task to be deleted
+     * @param name         the Task name
+     * @param description  the Task description
+     * @param deadline     the Task deadline
+     * @param username     the Task assigned user
+     * @param categoryName the Task category
+     * @return an HTTP code according to the outcome of the request.
+     */
     @PutMapping("/completeUpdate/{id}")
     public ResponseEntity<String> updateTaskComplete(
             @PathVariable Integer id,

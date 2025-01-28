@@ -62,7 +62,7 @@ public class TaskServiceImplementation implements TaskService {
     /**
      * Retrieves Task Category by name, if it doesn't exist, creates it.
      *
-     * @param taskCategoryName
+     * @param taskCategoryName the Task Category Name
      * @return the Task Category.
      */
     private TaskCategory getTaskCategory(String taskCategoryName) {
@@ -78,18 +78,18 @@ public class TaskServiceImplementation implements TaskService {
     /**
      * Creates and saves a Task in the Database. If the user specifies a Task Category that does not exist, creates it.
      *
-     * @param taskName
-     * @param taskDescription
-     * @param deadline
-     * @param taskCategoryName
-     * @param user
-     * @return the created Task
+     * @param name         the task name
+     * @param description  the task description
+     * @param deadline     the task deadline
+     * @param categoryName the task category name
+     * @param user         the ask assigned user
+     * @return the created Task.
      */
-    public Task createTask(String taskName, String taskDescription, Timestamp deadline,
-                           String taskCategoryName, UserApp user) {
+    public Task createTask(String name, String description, Timestamp deadline,
+                           String categoryName, UserApp user) {
 
-        TaskCategory taskCategory = getTaskCategory(taskCategoryName);
-        Task task = new Task(taskName, taskDescription, deadline, taskCategory, user);
+        TaskCategory taskCategory = getTaskCategory(categoryName);
+        Task task = new Task(name, description, deadline, taskCategory, user);
         return taskRepository.save(task);
     }
 
@@ -97,13 +97,13 @@ public class TaskServiceImplementation implements TaskService {
     /**
      * Retrieves Tasks corresponding to all the argument stored in the Database.
      *
-     * @param user
-     * @param name
-     * @param description
-     * @param deadline
-     * @param username
-     * @param categoryName
-     * @return 1 if deleted successfully, 0 otherwise.
+     * @param user         the current user of the application
+     * @param name         the task name
+     * @param description  the task description
+     * @param deadline     the task deadline
+     * @param username     the task assigned user
+     * @param categoryName the task category
+     * @return a String according to the outcome of the deletion.
      */
     @Override
     public String deleteTasks(UserApp user, String name, String description, String deadline, String username, String categoryName) {
@@ -118,8 +118,9 @@ public class TaskServiceImplementation implements TaskService {
     /**
      * Retrieves and deletes a Task by its ID.
      *
-     * @param id
-     * @param currentUser
+     * @param id          the id of the task
+     * @param currentUser the current user of the application
+     * @return a String according to the outcome of the deletion.
      */
     @Override
     public String deleteTaskById(int id, UserApp currentUser) {
@@ -139,14 +140,14 @@ public class TaskServiceImplementation implements TaskService {
     /**
      * Updates a Task stored in the Database.
      *
-     * @param id
-     * @param user
-     * @param name
-     * @param description
-     * @param deadline
-     * @param username
-     * @param categoryName
-     * @return the updated Task.
+     * @param id           the id of the task
+     * @param user         the current user of the application
+     * @param name         the new name of the task
+     * @param description  the new description of the task
+     * @param deadline     the new deadline of the task
+     * @param username     the new user assigned to the task
+     * @param categoryName the new category of the task
+     * @return a String according to the outcome of the update.
      */
     @Override
     public String partialUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName) {
@@ -183,14 +184,14 @@ public class TaskServiceImplementation implements TaskService {
     /**
      * Updates every data of a Task store in the Database.
      *
-     * @param id
-     * @param user
-     * @param name
-     * @param description
-     * @param deadline
-     * @param username
-     * @param categoryName
-     * @return
+     * @param id           the id of the task
+     * @param user         the current user of the application
+     * @param name         the new name of the task
+     * @param description  the new description of the task
+     * @param deadline     the new deadline of the task
+     * @param username     the new user assigned to the task
+     * @param categoryName the new category of the task
+     * @return a String according to the outcome of the update.
      */
     @Override
     public String completeUpdateTask(int id, UserApp user, String name, String description, String deadline, String username, String categoryName) {
