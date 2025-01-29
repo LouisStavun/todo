@@ -25,8 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.sql.Timestamp;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -117,5 +116,54 @@ class TasksControllerTest {
         Task returnedTask = (Task) response.getBody();
         assertEquals("Test Task", returnedTask.getTaskName());  // Checks task name is correct
     }
+
+    @Test
+    void testSearchTaskByIdNotEqual() {
+        // Arrange
+        int taskId = 1;
+        Task task = new Task();
+        task.setTask_id(taskId);
+        task.setTaskName("Test Task");
+
+        int taskId2 = 2;
+        Task task2 = new Task();
+        task2.setTask_id(taskId2);
+        task2.setTaskName("Test Task 2");
+
+        // Mock the repository call
+        when(taskRepository.findById(taskId2)).thenReturn(Optional.of(task2));
+
+        // Act
+        ResponseEntity<Object> response = tasksController.searchTaskById(taskId2);
+
+        // Assert
+        assertEquals(HttpStatus.OK, response.getStatusCode());  // Checks HTTP status 200
+        assertNotNull(response.getBody());  // Checks body is not null
+        Task returnedTask = (Task) response.getBody();
+        assertNotEquals("Test Task", returnedTask.getTaskName());  // Checks task name is not correct
+    }
+
+    @Test
+    void testSearchTaskByIdNotFound() {
+        // Arrange
+        int taskId = 1;
+        int taskId2 = 2;
+
+        Task task = new Task();
+        task.setTask_id(taskId);
+        task.setTaskName("Test Task");
+
+
+        // Mock the repository call
+        when(taskRepository.findById(taskId2)).thenReturn(Optional.empty());
+
+        // Act
+        ResponseEntity<Object> response = tasksController.searchTaskById(taskId2);
+
+        // Assert
+        assertNotNull(response);  // Checks Category is not null
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());  // Checks HTTP status 404
+    }
+
 
 }

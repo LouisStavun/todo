@@ -23,8 +23,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -107,6 +106,123 @@ public class TaskCategoryControllerTest {
         assertNotNull(returnedCategory);  // Checks body is not null and contains a Category
         assertEquals(categoryId, returnedCategory.getCategory_id());  // Checks Category ID
         assertEquals("Sample Category", returnedCategory.getCategoryName());
+    }
+
+    @Test
+    void searchCategoryByID_NotEqual() {
+        // Arrange
+        int categoryId = 1;
+        int secondCategoryId = 2;
+        TaskCategory mockCategory = new TaskCategory();
+        mockCategory.setCategory_id(categoryId);
+        mockCategory.setCategoryName("Sample Category");
+
+        TaskCategory mockCategory2 = new TaskCategory();
+        mockCategory2.setCategory_id(secondCategoryId);
+        mockCategory2.setCategoryName("Sample Category 2");
+
+        when(taskCategoryRepository.findById(categoryId)).thenReturn(Optional.of(mockCategory));
+        when(taskCategoryRepository.findById(secondCategoryId)).thenReturn(Optional.of(mockCategory2));
+
+        // Act
+        ResponseEntity<Object> response = taskCategoryController.searchCategoryByID(secondCategoryId);
+
+        // Assert
+        assertNotNull(response);  // Checks Category is not null
+        assertEquals(HttpStatus.OK, response.getStatusCode());  // Checks HTTP status 200
+        TaskCategory returnedCategory = (TaskCategory) response.getBody();
+        assertNotNull(returnedCategory);  // Checks body is not null and contains a Category
+        assertNotEquals(categoryId, returnedCategory.getCategory_id());  // Checks that Category ID is not the one we want
+        assertNotEquals("Sample Category", returnedCategory.getCategoryName());
+    }
+
+    @Test
+    void searchCategoryByID_NotFound() {
+        // Arrange
+        int categoryId = 1;
+        int secondCategoryId = 2;
+        TaskCategory mockCategory = new TaskCategory();
+        mockCategory.setCategory_id(categoryId);
+        mockCategory.setCategoryName("Sample Category");
+
+
+        when(taskCategoryRepository.findById(categoryId)).thenReturn(Optional.of(mockCategory));
+
+        // Act
+        ResponseEntity<Object> response = taskCategoryController.searchCategoryByID(secondCategoryId);
+
+        // Assert
+        assertNotNull(response);  // Checks Category is not null
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());  // Checks HTTP status 404
+
+    }
+
+    @Test
+    void searchCategoryByName_Found() {
+        // Arrange
+        int categoryId = 1;
+        String CategoryName = "Sample Category";
+        TaskCategory mockCategory = new TaskCategory();
+        mockCategory.setCategory_id(categoryId);
+        mockCategory.setCategoryName(CategoryName);
+
+        when(taskCategoryRepository.findByCategoryName(CategoryName)).thenReturn(mockCategory);
+
+        // Act
+        TaskCategory response = taskCategoryController.searchCategory(CategoryName);
+
+        // Assert
+        assertNotNull(response);  // Checks body is not null and contains a Category
+        assertEquals(categoryId, response.getCategory_id());  // Checks Category ID
+        assertEquals(CategoryName, response.getCategoryName()); // Checks Category Name
+    }
+
+    @Test
+    void searchCategoryByName_NotEqual() {
+        // Arrange
+        int categoryId = 1;
+        String CategoryName = "Sample Category";
+        TaskCategory mockCategory = new TaskCategory();
+        mockCategory.setCategory_id(categoryId);
+        mockCategory.setCategoryName(CategoryName);
+
+        int categoryId2 = 2;
+        String CategoryName2 = "Sample Category 2";
+        TaskCategory mockCategory2 = new TaskCategory();
+        mockCategory2.setCategory_id(categoryId2);
+        mockCategory2.setCategoryName(CategoryName2);
+
+        when(taskCategoryRepository.findByCategoryName(CategoryName)).thenReturn(mockCategory);
+        when(taskCategoryRepository.findByCategoryName(CategoryName2)).thenReturn(mockCategory2);
+
+        // Act
+        TaskCategory response = taskCategoryController.searchCategory(CategoryName2);
+
+        // Assert
+        assertNotNull(response);  // Checks Category is not null
+        assertNotEquals(categoryId, response.getCategory_id());  // Checks Category ID not the same
+        assertNotEquals(CategoryName, response.getCategoryName()); // Checks Category Name not the same
+    }
+
+    @Test
+    void searchCategoryByName_NotFound() {
+        // Arrange
+        int categoryId = 1;
+        String CategoryName = "Sample Category";
+        String CategoryName2 = "Sample Category 2";
+        TaskCategory mockCategory = new TaskCategory();
+        mockCategory.setCategory_id(categoryId);
+        mockCategory.setCategoryName(CategoryName2);
+
+
+        when(taskCategoryRepository.findByCategoryName(CategoryName)).thenReturn(mockCategory);
+
+        // Act
+        TaskCategory response = taskCategoryController.searchCategory(CategoryName2);
+
+        // Assert
+        assertNull(response);  // Checks Task Category returned is NULL
+
     }
 
 }
